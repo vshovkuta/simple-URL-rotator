@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<iframe id="frm" src="localhost" name="ifr"></iframe>
+		<div id="stretchBox"></div>
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				padding:0px;
+				margin:0px;
+				width:100%;
+				height:100%;
+				overflow:hidden;
+			}
+			
+			#frm {
+				width:100%;
+				height:calc(100% - 10px);
+				border:none;
+				
+			}
+			
+			#stretchBox {
+				width: 0%;
+				height: 10px;
+				background-color:#43b02a;
+				animation-timing-function: linear;
+				animation-iteration-count: infinite;
+				position: fixed;
+				bottom: 0px;
+			}
+		
+		
+			@keyframes stretch {
+			from {width: 0%;}
+			to {width: 100%;}
+			}
+		</style>
+		<script>
+		
+			var rotationIndex = 0;
+			
+			var URL_LIST = [
+			                'https://comfy.ua',
+							'https://eldorado.ua',
+							'https://allo.ua',
+						    ]
+							
+			var ROTATION_TIME = 20; //sec
+			
+			document.getElementById('frm').setAttribute('src', URL_LIST[URL_LIST.length-1]);
+			
+			document.getElementById('stretchBox').style.animationDuration = ROTATION_TIME+'s';
+			
+			document.getElementById('stretchBox').style.animationName = 'stretch';
+			document.getElementById('stretchBox').style.animationPlayState = 'running';
+			
+			setTimeout(function URLRotator() {
+				
+				document.getElementById('stretchBox').style.animationPlayState = 'paused';
+				document.getElementById('stretchBox').style.animationName = 'none';
+				
+				if(rotationIndex === URL_LIST.length) {
+					rotationIndex = 0;
+					//console.log('rotationIndex = 0');
+				}
+					
+				document.ifr.location.href=URL_LIST[rotationIndex];
+				rotationIndex++;
+				//console.log(rotationIndex);
+				document.getElementById('stretchBox').style.animationName = 'stretch';
+				document.getElementById('stretchBox').style.animationPlayState = 'running';
+			  
+				setTimeout(URLRotator, ROTATION_TIME*1000);
+			}, ROTATION_TIME*1000);
+			
+		</script>
+	
+	</body>
+</html>
